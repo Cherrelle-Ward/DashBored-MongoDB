@@ -1,8 +1,9 @@
 require("./db/connection");
-const { cloudinary } = require("./utils/cloudinary");
+const cloudinary = require("./utils/cloudinary").v2;
 const express = require("express");
 var cors = require("cors");
 const userRouter = require("./user/routes");
+require("dotenv").config();
 
 //Declaring app using the express method
 const app = express();
