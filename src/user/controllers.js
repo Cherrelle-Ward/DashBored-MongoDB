@@ -29,3 +29,22 @@ exports.login = async (req, res) => {
     res.status(500).send({ err: error.message });
   }
 };
+
+// image
+exports.updateImage = async (req, res) => {
+  const { image } = req.body;
+  try {
+    await User.findOneAndUpdate(
+      { username: req.body.username },
+      {
+        $set: {
+          image: image,
+        },
+      }
+    );
+    res.status(200).send({ message: "User image updated" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Check server logs" });
+  }
+};
