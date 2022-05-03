@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { findOne } = require("./model");
 const User = require("./model");
 
 //Shorthand exports. So you type exports then the "." and THEN the function name
@@ -35,9 +36,9 @@ exports.updateImage = async (req, res) => {
   const { image } = req.body;
   try {
     await User.findOneAndUpdate(
-      { username: req.body.username },
+      { username: req.body.user },
       {
-        $set: {
+        $push: {
           image: image,
         },
       }
@@ -46,5 +47,16 @@ exports.updateImage = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Check server logs" });
+  }
+};
+
+exports.getImages = async (req, res) => {
+  try {
+    const user = await findOne({
+      username: req.body.user,
+    });
+    res.status(200).send({ images: user.image });
+  } catch (error) {
+    console.log(error);
   }
 };
